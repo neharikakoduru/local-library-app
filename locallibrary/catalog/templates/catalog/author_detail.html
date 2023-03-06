@@ -1,8 +1,14 @@
-{% extends "base.html" %}
+{% extends "catalog/base.html" %}
 {% block content %}
+
+    <a href="{% url 'author_list' %}" class="btn btn-primary" >Back </a>
   <h1>Name: {{ author.first_name }} {{ author.last_name }}</h1>
   <p><strong>Date of Birth:</strong> {{ author.date_of_birth }}</p>
-
+    <div>
+    {% if author.author_image %}
+        <img src="{{ author.author_image.url }}">
+    {% endif %}
+    </div>
      <div style="margin-left:20px;margin-top:20px">
         <h4>BOOKS</h4>
             {% for item in author.book_set.all %}

@@ -1,0 +1,20 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+    {% if perms.catalog.edit_bookinstance %}
+        <h1>All Available Books</h1>
+        {% if bookinstance_list %}
+            <table class="table table-bordered">
+                {% for bookinst in bookinstance_list %}
+                    <tr class="table-secondary">
+                        <td><a href="{% url 'book_detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a></td>
+                        <td><a href="{% url 'loan_book_librarian' bookinst.id %}">Loan</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>There are no books available.</p>
+        {% endif %}
+    {% else %}
+        <p>You do not have authorization to view this feature</p>
+    {% endif %}
+{% endblock %}

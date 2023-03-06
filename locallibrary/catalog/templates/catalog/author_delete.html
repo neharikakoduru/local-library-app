@@ -1,0 +1,14 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+    {% if perms.catalog.delete_author %}
+        <h1>Delete Author {{ author.first_name }}</h1>
+        <form method="Post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Delete">
+            <a href="{% url 'index' pk=author.id %}">Cancel</a>
+        </form>
+    {% else %}
+        You do not have permission to access this feature
+        <a href="{% url 'index' %}">Home</a>
+    {% endif %}
+{% endblock %}

@@ -1,13 +1,22 @@
-{% extends "base.html" %}
+{% extends "catalog/base.html" %}
 {% block content %}
   <h1>Book List</h1>
   {% if book_list %}
   <ul>
+  <table class="table table-bordered">
     {% for book in book_list %}
-      <li>
-        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>({{book.author}})
-      </li>
+      <tr class="table-secondary">
+          <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a>    ({{book.author}})</td>
+          {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                <td><a href="{% url 'book_update' pk=book.pk%}" class="btn btn-primary"> Edit Book</a></td>
+                <td><a href="{% url 'book_delete' pk=book.pk%}"
+                       onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger"> Delete</a></td>
+            {% endif %}
+          {% endif %}
+      </tr>
     {% endfor %}
+  </table>
   </ul>
   {% else %}
     <p>There are no books in the library.</p>

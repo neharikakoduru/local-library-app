@@ -31,22 +31,46 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'author_list' %}">All Authors</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li><a class="nav-link" href="{% url 'my_books' %}">My Books</a></li>
+                    {% if user.is_superuser %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Librarian Functions
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'author_create'%}">Add Author</a></li>
+                                <li><a class="dropdown-item" href="{% url 'create_book'%}">Add Book</a></li>
+                                <li><a class="dropdown-item" href="{% url 'all_available' %}">View Available Books</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endif %}
             </ul>
         </div>
          <!--Display Login/Logout right-justified in navbar -->
     <ul class="nav navbar-nav ml-auto">
         {% if user.is_authenticated %}
-            <li><a class="nav-link" href="{% url 'logout' %}"><span
-class="glyphicon glyphicon-log-in"></span>Logout</a>
+            <li><a class="nav-link" href="{% url 'logout' %}">
+                <span class="glyphicon glyphicon-log-in"></span>Logout</a>
             </li>
         {% else %}
-            <li><a class="nav-link" href="{% url 'login' %}"><span
-class="glyphicon glyphicon-log-in"></span>Login</a>
+            <li><a class="nav-link" href="{% url 'login' %}">
+                <span class="glyphicon glyphicon-log-in"></span>Login</a>
+            </li>
+            <li><a class="nav-link" href="{% url 'register' %}">
+                <span class="glyphicon glyphicon-log-in"></span>Sign Up</a>
             </li>
         {% endif %}
     </ul>
     </div>
 </nav>
+<div class="container">
+    {% if user.is_authenticated %}
+        Welcome, {{ user.first_name }} {{ user.last_name }}
+    {% endif %}
+</div>
 <div class="container">
     <br/>
     {% block content %}
